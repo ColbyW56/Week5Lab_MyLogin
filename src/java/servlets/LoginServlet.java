@@ -5,6 +5,8 @@
  */
 package servlets;
 
+import models.AccountService;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -47,11 +49,18 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         
-        boolean validUser = false;
+        boolean vUser = false;
         String message = "";
         
         if (username == null || password == null || username.equals("") || password.equals("")) {
             message = "Please enter a username and password";
+        } else {
+            AccountService user = new AccountService();
+            vUser = user.login(username, password);
+        }
+        
+        if (vUser) {
+            session.setAttribute("username", username);
         }
     }
     
